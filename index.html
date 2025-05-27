@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8" />
@@ -61,90 +61,6 @@
       opacity: 0;
     }
   }
-
-  /* Segunda tela */
-  #second-screen {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    background: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 1.5s ease;
-    z-index: 20;
-  }
-
-  /* Blur rosa para segunda tela */
-  #second-screen #blur-bg-2 {
-    position: fixed;
-    top: -50%; left: -50%;
-    width: 200%; height: 200%;
-    background: radial-gradient(circle, rgba(255,0,150,0.3), transparent 70%);
-    filter: blur(120px);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* Texto da segunda tela - fonte casamento (Pacifico) e rosa */
-  #second-screen h1 {
-    color: #ff66cc;
-    font-family: 'Pacifico', cursive;
-    font-size: 3.5rem;
-    margin: 0;
-    text-shadow:
-      0 0 8px #ff66cc,
-      0 0 15px #ff33aa,
-      0 0 20px #ff1a8c,
-      0 0 30px #ff1a8c;
-  }
-
-  /* Container para rosas caindo */
-  #roses-container {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    pointer-events: none;
-    overflow: hidden;
-    z-index: 10;
-  }
-
-  /* Estilo das rosas */
-  .rose {
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    fill: #ff66cc;
-    filter: drop-shadow(0 0 5px #ff33aa);
-    animation-name: fall-rose, sway;
-    animation-timing-function: linear, ease-in-out;
-    animation-iteration-count: infinite, infinite;
-  }
-
-  /* Queda das rosas */
-  @keyframes fall-rose {
-    from {
-      transform: translateY(-50px);
-      opacity: 1;
-    }
-    to {
-      transform: translateY(110vh);
-      opacity: 0;
-    }
-  }
-
-  /* Movimento lateral suave */
-  @keyframes sway {
-    0%, 100% {
-      transform: translateX(0);
-    }
-    50% {
-      transform: translateX(15px);
-    }
-  }
 </style>
 </head>
 <body>
@@ -153,19 +69,28 @@
 
 <div id="teamo-container"></div>
 
-<div id="second-screen">
-  <div id="blur-bg-2"></div>
-  <h1>Você é tudo pra mim, Rita</h1>
-  <div id="roses-container"></div>
+<!-- Segunda tela nova, escondida inicialmente -->
+<div id="segunda-tela" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: black; color: white; font-family: Arial, sans-serif; z-index: 100; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 30px; text-align: center;">
+
+  <!-- Blur azul -->
+  <div style="position: fixed; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(0, 191, 255, 0.15), transparent 70%); filter: blur(120px); pointer-events: none; z-index: 0;"></div>
+
+  <div style="z-index: 1; max-width: 800px; font-size: 20px; line-height: 1.7;">
+    <p>Rita,</p>
+    <p>
+      Seus olhos azuis me lembram a lua, calmos e lindos. Seus cabelos dourados brilham como o sol, iluminando tudo ao seu redor. Seu nariz é perfeito, sua boca é incrível, cada característica sua é impecável. Seu umbigo é o mais lindo que já vi, seus pés me lembram a Cinderela e suas mãos são tão deslumbrantes quanto a Branca de Neve. Eu estou vivendo em um verdadeiro conto de fadas, com a princesa mais linda do universo.
+    </p>
+    <br>
+    <p>com amor,<br>Gabriel</p>
+  </div>
+
+  <button onclick="window.open('https://open.spotify.com/intl-pt/track/4UChhDCTtneR0QXN0btEmz?si=d12602ccb7d848d4','_blank')" style="margin-top: 30px; padding: 15px 30px; font-size: 18px; border-radius: 25px; background: transparent; border: 2px solid #00BFFF; color: #00BFFF; cursor: pointer; transition: 0.3s;">Eu te dedico...</button>
 </div>
 
 <script>
   const teamoContainer = document.getElementById('teamo-container');
-  const secondScreen = document.getElementById('second-screen');
-  const rosesContainer = document.getElementById('roses-container');
+  const segundaTela = document.getElementById('segunda-tela');
 
-  // Quantidade para cobrir a tela com TE AMO
-  // Ajusta para cobrir toda largura com textos espaçados na horizontal
   const textoWidth = 120; // largura estimada do texto TE AMO
   const textoHeight = 50; // altura estimada
   const cols = Math.ceil(window.innerWidth / textoWidth) + 2;
@@ -183,7 +108,6 @@
     el.style.animationDelay = delay + 's';
     el.textContent = 'TE AMO';
 
-    // Quando a animação acabar, conta pra saber quando terminar
     el.addEventListener('animationend', () => {
       el.remove();
       fallingCount++;
@@ -202,29 +126,10 @@
     }
   }
 
-  // Mostrar segunda tela com frase e rosas caindo
+  // Mostrar segunda tela (nova) com o texto personalizado
   function showSecondScreen() {
-    secondScreen.style.opacity = '1';
-    secondScreen.style.pointerEvents = 'auto';
-
-    // Criar várias rosas caindo
-    const roseSVG = `<svg class="rose" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" >
-      <path d="M32 2c-3 8-12 14-12 14 0 5-3 9-3 9 4-3 5-2 6-1 2 2 4 8 4 8l-2 6 4 2 4-2-2-6s2-6 4-8c1-1 2-2 6 1 0 0-3-4-3-9 0 0-9-6-12-14z" />
-    </svg>`;
-
-    const numRoses = 60;
-    for(let i=0; i<numRoses; i++) {
-      const div = document.createElement('div');
-      div.innerHTML = roseSVG;
-      const rose = div.firstChild;
-
-      rose.style.left = Math.random() * window.innerWidth + 'px';
-      rose.style.top = (-40 - Math.random() * 100) + 'px';
-      rose.style.animationDuration = (7 + Math.random() * 5) + 's';
-      rose.style.animationDelay = (Math.random() * 5) + 's';
-      rose.style.animationName = 'fall-rose, sway';
-      rosesContainer.appendChild(rose);
-    }
+    teamoContainer.style.display = 'none';
+    segundaTela.style.display = 'flex';
   }
 </script>
 
