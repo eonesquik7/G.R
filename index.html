@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8" />
@@ -61,19 +61,44 @@
       opacity: 0;
     }
   }
-</style>
-</head>
-<body>
 
-<div id="blur-bg"></div>
+  /* Segunda tela */
+  #second-screen {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1.5s ease;
+    z-index: 20;
+  }
 
-<div id="teamo-container"></div>
+  /* Blur rosa para segunda tela */
+  #second-screen #blur-bg-2 {
+    position: fixed;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(255,0,150,0.3), transparent 70%);
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: 0;
+  }
 
-<!-- Segunda tela nova, escondida inicialmente -->
-<div id="segunda-tela" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: black; color: white; font-family: Arial, sans-serif; z-index: 100; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 30px; text-align: center;">
+  <!-- SEGUNDA TELA -->
+<div id="segunda-tela" style="display: none; position: absolute; top: 0; left: 0; 
+  width: 100%; height: 100%; background: black; color: white; font-family: Arial, sans-serif; 
+  z-index: 100; display: flex; flex-direction: column; justify-content: center; align-items: center; 
+  padding: 30px; text-align: center;">
 
   <!-- Blur azul -->
-  <div style="position: fixed; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(0, 191, 255, 0.15), transparent 70%); filter: blur(120px); pointer-events: none; z-index: 0;"></div>
+  <div style="position: fixed; top: -50%; left: -50%; width: 200%; height: 200%; 
+    background: radial-gradient(circle, rgba(0, 191, 255, 0.15), transparent 70%); 
+    filter: blur(120px); pointer-events: none; z-index: 0;"></div>
 
   <div style="z-index: 1; max-width: 800px; font-size: 20px; line-height: 1.7;">
     <p>Rita,</p>
@@ -84,54 +109,15 @@
     <p>com amor,<br>Gabriel</p>
   </div>
 
-  <button onclick="window.open('https://open.spotify.com/intl-pt/track/4UChhDCTtneR0QXN0btEmz?si=d12602ccb7d848d4','_blank')" style="margin-top: 30px; padding: 15px 30px; font-size: 18px; border-radius: 25px; background: transparent; border: 2px solid #00BFFF; color: #00BFFF; cursor: pointer; transition: 0.3s;">Eu te dedico...</button>
+  <button onclick="window.open('https://open.spotify.com/intl-pt/track/4UChhDCTtneR0QXN0btEmz?si=d12602ccb7d848d4','_blank')" 
+    style="margin-top: 30px; padding: 15px 30px; font-size: 18px; border-radius: 25px; background: transparent; 
+    border: 2px solid #00BFFF; color: #00BFFF; cursor: pointer; transition: 0.3s;">Eu te dedico...</button>
 </div>
 
+<!-- SCRIPT PARA TROCAR DE TELA -->
 <script>
-  const teamoContainer = document.getElementById('teamo-container');
-  const segundaTela = document.getElementById('segunda-tela');
-
-  const textoWidth = 120; // largura estimada do texto TE AMO
-  const textoHeight = 50; // altura estimada
-  const cols = Math.ceil(window.innerWidth / textoWidth) + 2;
-  const rows = 20; // número de linhas para queda contínua
-
-  let fallingCount = 0;
-  const totalFallings = cols * rows;
-
-  // Função para criar um "TE AMO" caindo
-  function createTeAmo(x, delay) {
-    const el = document.createElement('div');
-    el.classList.add('teamo');
-    el.style.left = (x * textoWidth) + 'px';
-    el.style.animationDuration = (6 + Math.random() * 4) + 's';
-    el.style.animationDelay = delay + 's';
-    el.textContent = 'TE AMO';
-
-    el.addEventListener('animationend', () => {
-      el.remove();
-      fallingCount++;
-      if(fallingCount >= totalFallings) {
-        showSecondScreen();
-      }
-    });
-
-    teamoContainer.appendChild(el);
-  }
-
-  // Criar vários "TE AMO" para cobrir a tela
-  for(let row = 0; row < rows; row++) {
-    for(let col = 0; col < cols; col++) {
-      createTeAmo(col, row * 0.3 + Math.random() * 0.3);
-    }
-  }
-
-  // Mostrar segunda tela (nova) com o texto personalizado
-  function showSecondScreen() {
-    teamoContainer.style.display = 'none';
-    segundaTela.style.display = 'flex';
-  }
+  setTimeout(() => {
+    document.getElementById("teamo-container").style.display = "none";
+    document.getElementById("segunda-tela").style.display = "flex";
+  }, 9000); // 9 segundos até a troca de telas
 </script>
-
-</body>
-</html>
