@@ -72,10 +72,12 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    padding: 0 20px;
     opacity: 0;
     pointer-events: none;
     transition: opacity 1.5s ease;
     z-index: 20;
+    text-align: center;
   }
 
   /* Blur rosa para segunda tela */
@@ -89,35 +91,172 @@
     z-index: 0;
   }
 
-  <!-- SEGUNDA TELA -->
-<div id="segunda-tela" style="display: none; position: absolute; top: 0; left: 0; 
-  width: 100%; height: 100%; background: black; color: white; font-family: Arial, sans-serif; 
-  z-index: 100; display: flex; flex-direction: column; justify-content: center; align-items: center; 
-  padding: 30px; text-align: center;">
+  /* Texto da segunda tela - fonte casamento (Pacifico) e rosa */
+  #second-screen h1 {
+    color: #ff66cc;
+    font-family: 'Pacifico', cursive;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    white-space: pre-line;
+    text-shadow:
+      0 0 8px #ff66cc,
+      0 0 15px #ff33aa,
+      0 0 20px #ff1a8c,
+      0 0 30px #ff1a8c;
+    max-width: 600px;
+  }
 
-  <!-- Blur azul -->
-  <div style="position: fixed; top: -50%; left: -50%; width: 200%; height: 200%; 
-    background: radial-gradient(circle, rgba(0, 191, 255, 0.15), transparent 70%); 
-    filter: blur(120px); pointer-events: none; z-index: 0;"></div>
+  /* Botão de dedicatória */
+  #dedicate-button {
+    background-color: #ff66cc;
+    color: black;
+    font-family: 'Pacifico', cursive;
+    font-size: 1.5rem;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow:
+      0 0 10px #ff66cc,
+      0 0 20px #ff33aa;
+    transition: background-color 0.3s ease;
+  }
+  #dedicate-button:hover {
+    background-color: #ff33aa;
+    color: white;
+  }
 
-  <div style="z-index: 1; max-width: 800px; font-size: 20px; line-height: 1.7;">
-    <p>Rita,</p>
-    <p>
-      Seus olhos azuis me lembram a lua, calmos e lindos. Seus cabelos dourados brilham como o sol, iluminando tudo ao seu redor. Seu nariz é perfeito, sua boca é incrível, cada característica sua é impecável. Seu umbigo é o mais lindo que já vi, seus pés me lembram a Cinderela e suas mãos são tão deslumbrantes quanto a Branca de Neve. Eu estou vivendo em um verdadeiro conto de fadas, com a princesa mais linda do universo.
-    </p>
-    <br>
-    <p>com amor,<br>Gabriel</p>
-  </div>
+  /* Container para rosas caindo */
+  #roses-container {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 10;
+  }
 
-  <button onclick="window.open('https://open.spotify.com/intl-pt/track/4UChhDCTtneR0QXN0btEmz?si=d12602ccb7d848d4','_blank')" 
-    style="margin-top: 30px; padding: 15px 30px; font-size: 18px; border-radius: 25px; background: transparent; 
-    border: 2px solid #00BFFF; color: #00BFFF; cursor: pointer; transition: 0.3s;">Eu te dedico...</button>
+  /* Estilo das rosas */
+  .rose {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    fill: #ff66cc;
+    filter: drop-shadow(0 0 5px #ff33aa);
+    animation-name: fall-rose, sway;
+    animation-timing-function: linear, ease-in-out;
+    animation-iteration-count: infinite, infinite;
+  }
+
+  /* Queda das rosas */
+  @keyframes fall-rose {
+    from {
+      transform: translateY(-50px);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(110vh);
+      opacity: 0;
+    }
+  }
+
+  /* Movimento lateral suave */
+  @keyframes sway {
+    0%, 100% {
+      transform: translateX(0);
+    }
+    50% {
+      transform: translateX(15px);
+    }
+  }
+</style>
+</head>
+<body>
+
+<div id="blur-bg"></div>
+
+<div id="teamo-container"></div>
+
+<div id="second-screen">
+  <div id="blur-bg-2"></div>
+  <h1>
+Rita,
+Teus olhos azuis me lembram a lua, calmos e lindos. Teu cabelo loiro brilha como o sol, iluminando tudo ao redor. Teu nariz é perfeito, tua boca maravilhosa, e cada traço teu é impecável. Teu umbigo é o mais lindo que já vi, teus pés me fazem pensar na Cinderela, e tuas mãos, deslumbrantes como as da Branca de Neve. Você é meu conto de fadas real.
+Com amor,
+Gabriel
+  </h1>
+  <button id="dedicate-button" onclick="window.open('https://open.spotify.com/intl-pt/track/6LK6WzHXD0VkSBu7QYzWsu?si=fd74c8d2060f4caa', '_blank')">eu te dedico...</button>
+  <div id="roses-container"></div>
 </div>
 
-<!-- SCRIPT PARA TROCAR DE TELA -->
 <script>
-  setTimeout(() => {
-    document.getElementById("teamo-container").style.display = "none";
-    document.getElementById("segunda-tela").style.display = "flex";
-  }, 9000); // 9 segundos até a troca de telas
+  const teamoContainer = document.getElementById('teamo-container');
+  const secondScreen = document.getElementById('second-screen');
+  const rosesContainer = document.getElementById('roses-container');
+
+  // Quantidade para cobrir a tela com TE AMO
+  // Ajusta para cobrir toda largura com textos espaçados na horizontal
+  const textoWidth = 120; // largura estimada do texto TE AMO
+  const textoHeight = 50; // altura estimada
+  const cols = Math.ceil(window.innerWidth / textoWidth) + 2;
+  const rows = 20; // número de linhas para queda contínua
+
+  let fallingCount = 0;
+  const totalFallings = cols * rows;
+
+  // Função para criar um "TE AMO" caindo
+  function createTeAmo(x, delay) {
+    const el = document.createElement('div');
+    el.classList.add('teamo');
+    el.style.left = (x * textoWidth) + 'px';
+    el.style.animationDuration = (6 + Math.random() * 4) + 's';
+    el.style.animationDelay = delay + 's';
+    el.textContent = 'TE AMO';
+
+    // Quando a animação acabar, conta pra saber quando terminar
+    el.addEventListener('animationend', () => {
+      el.remove();
+      fallingCount++;
+      if(fallingCount >= totalFallings) {
+        showSecondScreen();
+      }
+    });
+
+    teamoContainer.appendChild(el);
+  }
+
+  // Criar vários "TE AMO" para cobrir a tela
+  for(let row = 0; row < rows; row++) {
+    for(let col = 0; col < cols; col++) {
+      createTeAmo(col, row * 0.3 + Math.random() * 0.3);
+    }
+  }
+
+  // Mostrar segunda tela com frase e rosas caindo
+  function showSecondScreen() {
+    secondScreen.style.opacity = '1';
+    secondScreen.style.pointerEvents = 'auto';
+
+    // Criar várias rosas caindo
+    const roseSVG = `<svg class="rose" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" >
+      <path d="M32 2c-3 8-12 14-12 14 0 5-3 9-3 9 4-3 5-2 6-1 2 2 4 8 4 8l-2 6 4 2 4-2-2-6s2-6 4-8c1-1 2-2 6 1 0 0-3-4-3-9 0 0-9-6-12-14z" />
+    </svg>`;
+
+    const numRoses = 60;
+    for(let i=0; i<numRoses; i++) {
+      const div = document.createElement('div');
+      div.innerHTML = roseSVG;
+      const rose = div.firstChild;
+
+      rose.style.left = Math.random() * window.innerWidth + 'px';
+      rose.style.top = (-40 - Math.random() * 100) + 'px';
+      rose.style.animationDuration = (7 + Math.random() * 5) + 's';
+      rose.style.animationDelay = (Math.random() * 5) + 's';
+      rose.style.animationName = 'fall-rose, sway';
+      rosesContainer.appendChild(rose);
+    }
+  }
 </script>
+
+</body>
+</html>
