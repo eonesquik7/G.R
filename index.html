@@ -72,11 +72,12 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    padding: 0 20px;
     opacity: 0;
     pointer-events: none;
     transition: opacity 1.5s ease;
     z-index: 20;
+    padding: 20px;
+    box-sizing: border-box;
     text-align: center;
   }
 
@@ -95,35 +96,32 @@
   #second-screen h1 {
     color: #ff66cc;
     font-family: 'Pacifico', cursive;
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    white-space: pre-line;
+    font-size: 2.5rem; /* fonte menor */
+    margin: 0 0 20px 0;
     text-shadow:
-      0 0 8px #ff66cc,
-      0 0 15px #ff33aa,
-      0 0 20px #ff1a8c,
-      0 0 30px #ff1a8c;
-    max-width: 600px;
+      0 0 4px #ff66cc,
+      0 0 8px #ff33aa,
+      0 0 10px #ff1a8c;
   }
 
-  /* Botão de dedicatória */
-  #dedicate-button {
+  /* Botão */
+  #second-screen button {
     background-color: #ff66cc;
-    color: black;
-    font-family: 'Pacifico', cursive;
-    font-size: 1.5rem;
-    padding: 10px 25px;
     border: none;
     border-radius: 25px;
+    padding: 12px 28px;
+    color: white;
+    font-family: Arial, sans-serif;
+    font-weight: bold;
+    font-size: 1.1rem;
     cursor: pointer;
     box-shadow:
-      0 0 10px #ff66cc,
-      0 0 20px #ff33aa;
+      0 0 8px #ff66cc,
+      0 0 15px #ff33aa;
     transition: background-color 0.3s ease;
   }
-  #dedicate-button:hover {
+  #second-screen button:hover {
     background-color: #ff33aa;
-    color: white;
   }
 
   /* Container para rosas caindo */
@@ -169,6 +167,17 @@
       transform: translateX(15px);
     }
   }
+
+  /* Responsivo para celular */
+  @media (max-width: 480px) {
+    #second-screen h1 {
+      font-size: 1.8rem;
+    }
+    #second-screen button {
+      font-size: 1rem;
+      padding: 10px 22px;
+    }
+  }
 </style>
 </head>
 <body>
@@ -180,12 +189,17 @@
 <div id="second-screen">
   <div id="blur-bg-2"></div>
   <h1>
-Rita,
-Teus olhos azuis me lembram a lua, calmos e lindos. Teu cabelo loiro brilha como o sol, iluminando tudo ao redor. Teu nariz é perfeito, tua boca maravilhosa, e cada traço teu é impecável. Teu umbigo é o mais lindo que já vi, teus pés me fazem pensar na Cinderela, e tuas mãos, deslumbrantes como as da Branca de Neve. Você é meu conto de fadas real.
-Com amor,
-Gabriel
+    Rita,<br>
+    Teus olhos <span style="color:#3399ff;">azuis</span> me lembram a <span style="color:#3399ff;">lua</span>, calmos e lindos.<br>
+    Teu cabelo <span style="color:#ffdd55;">loiro</span> brilha como o sol, iluminando tudo ao redor.<br>
+    Teu nariz é perfeito, tua boca maravilhosa, e cada traço teu é impecável.<br>
+    Teu umbigo é o mais lindo que já vi, teus pés me fazem pensar na Cinderela,<br>
+    e tuas mãos, deslumbrantes como as da Branca de Neve.<br>
+    Você é meu conto de fadas real.<br><br>
+    Com amor,<br>
+    Gabriel
   </h1>
-  <button id="dedicate-button" onclick="window.open('https://open.spotify.com/intl-pt/track/6LK6WzHXD0VkSBu7QYzWsu?si=fd74c8d2060f4caa', '_blank')">eu te dedico...</button>
+  <button onclick="window.open('https://open.spotify.com/intl-pt/track/6LK6WzHXD0VkSBu7QYzWsu?si=fd74c8d2060f4caa', '_blank')">eu te dedico...</button>
   <div id="roses-container"></div>
 </div>
 
@@ -195,16 +209,15 @@ Gabriel
   const rosesContainer = document.getElementById('roses-container');
 
   // Quantidade para cobrir a tela com TE AMO
-  // Ajusta para cobrir toda largura com textos espaçados na horizontal
-  const textoWidth = 120; // largura estimada do texto TE AMO
-  const textoHeight = 50; // altura estimada
+  const textoWidth = 120;
+  const textoHeight = 50;
   const cols = Math.ceil(window.innerWidth / textoWidth) + 2;
-  const rows = 20; // número de linhas para queda contínua
+  const rows = 20;
 
   let fallingCount = 0;
   const totalFallings = cols * rows;
 
-  // Função para criar um "TE AMO" caindo
+  // Criar "TE AMO" caindo
   function createTeAmo(x, delay) {
     const el = document.createElement('div');
     el.classList.add('teamo');
@@ -213,7 +226,6 @@ Gabriel
     el.style.animationDelay = delay + 's';
     el.textContent = 'TE AMO';
 
-    // Quando a animação acabar, conta pra saber quando terminar
     el.addEventListener('animationend', () => {
       el.remove();
       fallingCount++;
@@ -237,7 +249,6 @@ Gabriel
     secondScreen.style.opacity = '1';
     secondScreen.style.pointerEvents = 'auto';
 
-    // Criar várias rosas caindo
     const roseSVG = `<svg class="rose" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" >
       <path d="M32 2c-3 8-12 14-12 14 0 5-3 9-3 9 4-3 5-2 6-1 2 2 4 8 4 8l-2 6 4 2 4-2-2-6s2-6 4-8c1-1 2-2 6 1 0 0-3-4-3-9 0 0-9-6-12-14z" />
     </svg>`;
