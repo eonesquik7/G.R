@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Para Rita 💖</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      overflow: hidden;
+      background: black;
+      font-family: 'Arial Black', sans-serif;
+      color: white;
+    }
+
+    .blur-pink, .blur-blue {
+      position: absolute;
+      width: 100vw;
+      height: 100vh;
+      filter: blur(100px);
+      z-index: -1;
+    }
+
+    .blur-pink {
+      background: radial-gradient(circle, rgba(255,0,255,0.2) 0%, transparent 70%);
+    }
+
+    .blur-blue {
+      background: radial-gradient(circle, rgba(0,191,255,0.15) 0%, transparent 70%);
+    }
+
+    .te-amo {
+      position: absolute;
+      color: pink;
+      font-size: 24px;
+      animation: cair 5s linear infinite;
+      text-shadow: 0 0 10px hotpink;
+      font-weight: bold;
+    }
+
+    @keyframes cair {
+      0% {
+        top: -10%;
+        opacity: 1;
+      }
+      100% {
+        top: 110%;
+        opacity: 0;
+      }
+    }
+
+    #primeira {
+      position: absolute;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .segunda-tela {
+      display: none;
+      position: absolute;
+      width: 100vw;
+      height: 100vh;
+      background: black;
+      font-family: 'Arial Black', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      flex-direction: column;
+      padding: 30px;
+      z-index: 2;
+    }
+
+    .mensagem {
+      max-width: 800px;
+      font-size: 22px;
+      line-height: 1.8;
+      color: white;
+      z-index: 1;
+    }
+
+    .botao {
+      margin-top: 40px;
+      padding: 15px 30px;
+      font-size: 18px;
+      background-color: transparent;
+      border: 2px solid #00BFFF;
+      border-radius: 25px;
+      color: #00BFFF;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      z-index: 1;
+    }
+
+    .botao:hover {
+      background-color: #00BFFF;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <!-- Blur rosa para a primeira parte -->
+  <div class="blur-pink"></div>
+
+  <!-- Primeira tela -->
+  <div id="primeira">
+    <script>
+      for (let i = 0; i < 100; i++) {
+        let div = document.createElement('div');
+        div.className = 'te-amo';
+        div.textContent = 'TE AMO';
+        div.style.left = Math.random() * 100 + 'vw';
+        div.style.animationDuration = (3 + Math.random() * 3) + 's';
+        div.style.fontSize = (20 + Math.random() * 20) + 'px';
+        document.getElementById('primeira').appendChild(div);
+      }
+
+      setTimeout(() => {
+        document.getElementById('primeira').style.display = 'none';
+        document.querySelector('.segunda-tela').style.display = 'flex';
+      }, 9000); // duração da primeira parte
+    </script>
+  </div>
+
+  <!-- Segunda tela -->
+  <div class="segunda-tela">
+    <!-- Blur azul de fundo -->
+    <div class="blur-blue"></div>
+    <div class="mensagem">
+      <p>Rita,</p>
+      <p>
+        Seus olhos azuis me lembram a lua, calmos e lindos. Seus cabelos dourados brilham como o sol, iluminando tudo ao seu redor. Seu nariz é perfeito, sua boca é incrível, cada característica sua é impecável. Seu umbigo é o mais lindo que já vi, seus pés me lembram a Cinderela e suas mãos são tão deslumbrantes quanto a Branca de Neve. Eu estou vivendo em um verdadeiro conto de fadas, com a princesa mais linda do universo.
+      </p>
+      <br>
+      <p>com amor,<br>Gabriel</p>
+    </div>
+    <button class="botao" onclick="window.open('https://open.spotify.com/intl-pt/track/4UChhDCTtneR0QXN0btEmz?si=d12602ccb7d848d4', '_blank')">
+      Eu te dedico...
+    </button>
+  </div>
+</body>
+</html>
