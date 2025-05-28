@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>TE AMO Animado</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
@@ -20,7 +20,7 @@
     position: fixed;
     top: -50%; left: -50%;
     width: 200%; height: 200%;
-    background: radial-gradient(circle, rgba(255,192,203,0.15), transparent 70%);
+    background: radial-gradient(circle, rgba(255,20,147,0.5), transparent 70%);
     filter: blur(100px);
     pointer-events: none;
     z-index: 0;
@@ -37,12 +37,12 @@
   .teamo {
     position: absolute;
     top: -50px;
-    color: #ff69b4; /* rosa */
+    color: #ff1493;
     font-weight: 900;
     font-size: 1.8rem;
     text-shadow:
-      0 0 4px #ff69b4,
-      0 0 8px #ff69b4;
+      0 0 6px #ff1493,
+      0 0 12px #ff1493;
     animation-name: drop;
     animation-timing-function: linear;
     animation-fill-mode: forwards;
@@ -68,52 +68,27 @@
     pointer-events: none;
     transition: opacity 1.5s ease;
     z-index: 20;
-    padding: 15px;
-    box-sizing: border-box;
-    text-align: center;
   }
 
-  #second-screen #blur-bg-2 {
+  #blur-bg-2 {
     position: fixed;
     top: -50%; left: -50%;
     width: 200%; height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.1), transparent 70%);
-    filter: blur(60px);
+    background: radial-gradient(circle, rgba(255,255,255,0.15), transparent 70%);
+    filter: blur(90px);
     pointer-events: none;
     z-index: 0;
   }
 
-  #second-screen h1 {
-    color: #fff;
-    font-family: 'Pacifico', cursive;
-    font-size: 1.6rem;
-    margin: 0 0 20px 0;
-    line-height: 1.3;
-    text-shadow:
-      0 0 3px white,
-      0 0 6px white;
-  }
-
-  #second-screen h1 span {
-    color: inherit;
-  }
-
-  #second-screen button {
-    background-color: transparent;
-    border: 2px solid white;
-    border-radius: 25px;
-    padding: 10px 24px;
+  #second-screen .message {
     color: white;
-    font-family: Arial, sans-serif;
-    font-weight: bold;
-    font-size: 1rem;
-    cursor: pointer;
-    box-shadow: 0 0 8px white;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  #second-screen button:hover {
-    background-color: white;
-    color: black;
+    font-family: 'Pacifico', cursive;
+    font-size: 1.2rem;
+    max-width: 90%;
+    text-align: center;
+    line-height: 1.6;
+    text-shadow: 0 0 3px white;
+    margin-bottom: 20px;
   }
 
   #roses-container {
@@ -127,10 +102,10 @@
 
   .rose {
     position: absolute;
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     fill: white;
-    filter: drop-shadow(0 0 4px white);
+    filter: drop-shadow(0 0 3px white);
     animation-name: fall-rose, sway;
     animation-timing-function: linear, ease-in-out;
     animation-iteration-count: infinite, infinite;
@@ -138,7 +113,7 @@
 
   @keyframes fall-rose {
     from {
-      transform: translateY(-40px);
+      transform: translateY(-50px);
       opacity: 1;
     }
     to {
@@ -152,45 +127,45 @@
       transform: translateX(0);
     }
     50% {
-      transform: translateX(12px);
+      transform: translateX(10px);
     }
   }
 
-  @media (max-width: 480px) {
-    .teamo {
-      font-size: 1.4rem;
-    }
-    #second-screen h1 {
-      font-size: 1.4rem;
-      padding: 0 10px;
-    }
-    #second-screen button {
-      font-size: 0.9rem;
-      padding: 8px 20px;
-    }
+  .dedico-btn {
+    margin-top: 10px;
+    background: transparent;
+    color: white;
+    border: 1px solid white;
+    padding: 10px 18px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: 0.3s;
+  }
+
+  .dedico-btn:hover {
+    background: white;
+    color: black;
   }
 </style>
 </head>
 <body>
 
 <div id="blur-bg"></div>
-
 <div id="teamo-container"></div>
 
 <div id="second-screen">
   <div id="blur-bg-2"></div>
-  <h1>
+  <div class="message">
     Rita,<br>
-    Teus olhos azuis me lembram a lua, calmos e lindos.<br>
-    Teu cabelo dourado brilha como o sol, iluminando tudo ao redor.<br>
+    Teus olhos azuis me lembram a lua, calmos e lindos. Teu cabelo loiro brilha como o sol, iluminando tudo ao redor.<br>
     Teu nariz é perfeito, tua boca maravilhosa, e cada traço teu é impecável.<br>
-    Teu umbigo é o mais lindo que já vi, teus pés me fazem pensar na Cinderela,<br>
-    e tuas mãos, deslumbrantes como as da Branca de Neve.<br>
+    Teu umbigo é o mais lindo que já vi, teus pés me fazem pensar na Cinderela, e tuas mãos, deslumbrantes como as da Branca de Neve.<br>
     Você é meu conto de fadas real.<br><br>
     Com amor,<br>
     Gabriel
-  </h1>
-  <button onclick="window.open('https://open.spotify.com/intl-pt/track/4UChhDCTtneR0QXN0btEmz?si=8334bae5163f457e', '_blank')">eu te dedico...</button>
+  </div>
+  <a class="dedico-btn" href="https://open.spotify.com/intl-pt/track/6LK6WzHXD0VkSBu7QYzWsu?si=fd74c8d2060f4caa" target="_blank">eu te dedico...</a>
   <div id="roses-container"></div>
 </div>
 
@@ -199,11 +174,10 @@
   const secondScreen = document.getElementById('second-screen');
   const rosesContainer = document.getElementById('roses-container');
 
-  const textoWidth = 120;
+  const textoWidth = 100;
   const textoHeight = 50;
   const cols = Math.ceil(window.innerWidth / textoWidth) + 2;
-  const rows = 20;
-
+  const rows = 18;
   let fallingCount = 0;
   const totalFallings = cols * rows;
 
@@ -211,7 +185,7 @@
     const el = document.createElement('div');
     el.classList.add('teamo');
     el.style.left = (x * textoWidth) + 'px';
-    el.style.animationDuration = (6 + Math.random() * 4) + 's';
+    el.style.animationDuration = (6 + Math.random() * 3) + 's';
     el.style.animationDelay = delay + 's';
     el.textContent = 'TE AMO';
 
@@ -236,11 +210,11 @@
     secondScreen.style.opacity = '1';
     secondScreen.style.pointerEvents = 'auto';
 
-    const roseSVG = `<svg class="rose" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" >
+    const roseSVG = `<svg class="rose" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
       <path d="M32 2c-3 8-12 14-12 14 0 5-3 9-3 9 4-3 5-2 6-1 2 2 4 8 4 8l-2 6 4 2 4-2-2-6s2-6 4-8c1-1 2-2 6 1 0 0-3-4-3-9 0 0-9-6-12-14z" />
     </svg>`;
 
-    const numRoses = 60;
+    const numRoses = 50;
     for(let i=0; i<numRoses; i++) {
       const div = document.createElement('div');
       div.innerHTML = roseSVG;
@@ -248,8 +222,8 @@
 
       rose.style.left = Math.random() * window.innerWidth + 'px';
       rose.style.top = (-40 - Math.random() * 100) + 'px';
-      rose.style.animationDuration = (7 + Math.random() * 5) + 's';
-      rose.style.animationDelay = (Math.random() * 5) + 's';
+      rose.style.animationDuration = (6 + Math.random() * 4) + 's';
+      rose.style.animationDelay = (Math.random() * 4) + 's';
       rose.style.animationName = 'fall-rose, sway';
       rosesContainer.appendChild(rose);
     }
