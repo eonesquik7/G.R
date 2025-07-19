@@ -1,243 +1,286 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>TE AMO Animado</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
-
-  body, html {
-    margin: 0; padding: 0; overflow: hidden;
-    background: black;
-    height: 100vh;
-    width: 100vw;
-    position: relative;
-    font-family: Arial, sans-serif;
-  }
-
-  #blur-bg {
-    position: fixed;
-    top: -50%; left: -50%;
-    width: 200%; height: 200%;
-    background: radial-gradient(circle, rgba(255,0,127,0.5), transparent 70%);
-    filter: blur(100px);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  #teamo-container {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    overflow: hidden;
-    z-index: 10;
-  }
-
-  .teamo {
-    position: absolute;
-    top: -50px;
-    color: #ff007f;
-    font-weight: 900;
-    font-size: 1.5rem;
-    text-shadow:
-      0 0 8px #ff007f,
-      0 0 16px #ff007f;
-    animation-name: drop;
-    animation-timing-function: linear;
-    animation-fill-mode: forwards;
-  }
-
-  @keyframes drop {
-    to {
-      transform: translateY(110vh);
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Lluvia Gigante de Amor</title>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      overflow: hidden;
+      cursor: none;
+      touch-action: manipulation;
+    }
+    canvas {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+    }
+    .center-message {
+      font-family: 'Courier New', monospace;
+      color: #ff69b4;
+      font-size: 2.5rem;
+      text-align: center;
+      opacity: 0.8;
+      text-shadow: 0 0 10px rgba(255, 105, 180, 0.7);
+      animation: pulse 4s infinite;
+      padding: 1rem;
+      max-width: 90%;
+    }
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 0.8;
+      }
+      50% {
+        transform: scale(1.03);
+        opacity: 1;
+      }
+    }
+    .heart-cursor {
+      position: absolute;
+      width: 32px;
+      height: 32px;
+      z-index: 9999;
+      pointer-events: none;
+      transition: transform 0.1s ease;
+      filter: drop-shadow(0 0 4px #ff69b4);
+    }
+    #audio-control {
+      position: absolute;
       opacity: 0;
+      z-index: -1;
     }
-  }
-
-  #second-screen {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    background: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 1.5s ease;
-    z-index: 20;
-    color: white;
-    text-align: center;
-    padding: 15px;
-  }
-
-  #second-screen #blur-bg-2 {
-    position: fixed;
-    top: -50%; left: -50%;
-    width: 200%; height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.08), transparent 70%);
-    filter: blur(80px);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  #second-screen h1 {
-    color: white;
-    font-family: 'Pacifico', cursive;
-    font-size: 1.1rem;
-    margin: 0 0 20px 0;
-    text-shadow:
-      0 0 3px white,
-      0 0 6px white;
-    max-width: 95%;
-    line-height: 1.5;
-  }
-
-  #roses-container {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    pointer-events: none;
-    overflow: hidden;
-    z-index: 10;
-  }
-
-  .rose {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    fill: white;
-    filter: drop-shadow(0 0 2px white);
-    animation-name: fall-rose, sway;
-    animation-timing-function: linear, ease-in-out;
-    animation-iteration-count: infinite, infinite;
-  }
-
-  @keyframes fall-rose {
-    from {
-      transform: translateY(-50px);
-      opacity: 1;
-    }
-    to {
-      transform: translateY(110vh);
-      opacity: 0;
-    }
-  }
-
-  @keyframes sway {
-    0%, 100% {
-      transform: translateX(0);
-    }
-    50% {
-      transform: translateX(10px);
-    }
-  }
-
-  #dedico-btn {
-    background-color: transparent;
-    border: 2px solid white;
-    color: white;
-    padding: 8px 16px;
-    margin-top: 15px;
-    font-size: 0.9rem;
-    border-radius: 30px;
-    text-decoration: none;
-    transition: background 0.3s, color 0.3s;
-  }
-
-  #dedico-btn:hover {
-    background-color: white;
-    color: black;
-  }
-
-</style>
+  </style>
 </head>
 <body>
+  <canvas id="canvas"></canvas>
+  <div class="overlay">
+    <div class="center-message">
+      Rita, eu te amo como nunca amei outra mulher, você é simplesmente perfeita e eu sempre vou ser grato por ter você ao meu lado, não consigo descrever em palavras o que sinto você é perfeita mas espero que você goste, eu te amo, amor
+    </div>
+  </div>
+  <img id="cursor" class="heart-cursor" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBmaWxsPSIjZmY2OWI0IiBkPSJNNDcuNiAyNUMyNS4xIDI1IDcgNDMuMSA3IDY1LjZDNyA4OC4xIDI0LjMgMTI3IDkzLjUgMTU3LjVjNjkuMiAzMC41IDE0Ni4zIDY0LjEgMTYxLjUgODQuMSAxNS4yLTIwIDEwMC4xLTUzLjYgMTY5LjMtODQuMSA2OS4yLTMwLjUgODYuNS02OS40IDg2LjUtOTEuOSAwLTIyLjUtMTguMS00MC42LTQwLjYtNDAuNnMtNDAuNiAxOC4xLTQwLjYgNDAuNmMwIDguMSAxLjYgMTUuNSA0LjMgMjIuMi0zLjEgMi4yLTYuNyAzLjUtMTAuNyAzLjUtMTMuOCAwLTI1LTExLjItMjUtMjVzMTEuMi0yNSAyNS0yNWM4LjEgMCAxNS41IDMuOSAyMC4yIDEwLjIgMTEuNy0xNS4yIDE4LjgtMzQuMiAxODgtNTUuMiAwLTQ1LjktMzcuMi04My4xLTgzLjEtODMuMXMtODMuMSAzNy4yLTgzLjEgODMuMWMwIDE2LjMgNC43IDMxLjUgMTIuOCA0NC4zLTEuMiAxLjEtMi42IDIuMS00LjEgMi45LTE0LjMgNy44LTI2IDE0LjktMzYuMiAyMC4yQzEwOS4zIDEyMS41IDQ3LjYgODguMSA0Ny42IDY1LjZzMTguMS00MC42IDQwLjYtNDAuNkMxMDkuMyAyNSA3NyA0My4xIDc3IDY1LjZzMzIuMyA0MC42IDMyLjMgNDAuNlMxNzAuMSAyNSA0Ny42IDI1eiIvPjwvc3ZnPg==" alt="heart">
 
-<div id="blur-bg"></div>
-<div id="teamo-container"></div>
+  <audio id="audio-control" loop>
+    <source src="musica.mp3" type="audio/mpeg">
+    Seu navegador não suporta o elemento de áudio.
+  </audio>
 
-<div id="second-screen">
-  <div id="blur-bg-2"></div>
-  <h1>
-    Rita,<br>
-    Teus olhos azuis me lembram a lua, calmos e lindos.<br>
-    Teu cabelo loiro brilha como o sol, iluminando tudo ao redor.<br>
-    Teu nariz é perfeito, tua boca maravilhosa, e cada traço teu é impecável.<br>
-    Teu umbigo é o mais lindo que já vi, teus pés me fazem pensar na Cinderela,<br>
-    e tuas mãos, deslumbrantes como as da Branca de Neve.<br>
-    Você é meu conto de fadas real.<br><br>
-    Com amor,<br>Gabriel
-  </h1>
-  <a id="dedico-btn" href="https://open.spotify.com/intl-pt/track/4UChhDCTtneR0QXN0btEmz?si=33b74808d0af48b8" target="_blank">
-    eu te dedico...
-  </a>
-  <div id="roses-container"></div>
-</div>
+  <script>
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
+    const colors = ['#ff69b4', '#ff1493', '#ffa07a', '#ffc0cb', '#db7093', '#ffb6c1', '#ffffe0', '#ffe4e1'];
 
-<script>
-  const teamoContainer = document.getElementById('teamo-container');
-  const secondScreen = document.getElementById('second-screen');
-  const rosesContainer = document.getElementById('roses-container');
-
-  const textoWidth = 100;
-  const textoHeight = 50;
-  const cols = Math.ceil(window.innerWidth / textoWidth) + 2;
-  const rows = 18;
-
-  let fallingCount = 0;
-  const totalFallings = cols * rows;
-
-  function createTeAmo(x, delay) {
-    const el = document.createElement('div');
-    el.classList.add('teamo');
-    el.style.left = (x * textoWidth) + 'px';
-    el.style.animationDuration = (6 + Math.random() * 4) + 's';
-    el.style.animationDelay = delay + 's';
-    el.textContent = 'TE AMO';
-
-    el.addEventListener('animationend', () => {
-      el.remove();
-      fallingCount++;
-      if(fallingCount >= totalFallings) {
-        showSecondScreen();
+    document.addEventListener('DOMContentLoaded', function() {
+      const audio = document.getElementById('audio-control');
+      function playAudio() {
+        audio.volume = 0.8;
+        audio.play().catch(error => console.log('Error ao reproduzir áudio:', error));
       }
+      document.body.addEventListener(isTouchDevice ? 'touchstart' : 'click', function() {
+        playAudio();
+      });
     });
 
-    teamoContainer.appendChild(el);
-  }
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    const cursor = document.getElementById('cursor');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
-  for(let row = 0; row < rows; row++) {
-    for(let col = 0; col < cols; col++) {
-      createTeAmo(col, row * 0.3 + Math.random() * 0.3);
+    if (isTouchDevice) {
+      cursor.style.display = 'none';
+    } else {
+      document.addEventListener('mousemove', e => {
+        cursor.style.left = `${e.clientX - 16}px`;
+        cursor.style.top = `${e.clientY - 16}px`;
+        cursor.style.transform = `scale(${1 + Math.sin(Date.now()/300)*0.05})`;
+      });
+      document.addEventListener('mousedown', () => cursor.style.transform = 'scale(0.8)');
+      document.addEventListener('mouseup', () => {
+        cursor.style.transform = 'scale(1.1)';
+        setTimeout(() => cursor.style.transform = 'scale(1)', 100);
+      });
     }
-  }
 
-  function showSecondScreen() {
-    secondScreen.style.opacity = '1';
-    secondScreen.style.pointerEvents = 'auto';
+    const text = `Rita, eu te amo como nunca amei outra mulher, você é simplesmente perfeita e eu sempre vou ser grato por ter você ao meu lado, não consigo descrever em palavras o que sinto você é perfeita mas espero que você goste, eu te amo, amor`;
+    const baseFontSize = isTouchDevice ? 36 : 64;
+    let columns = Math.floor(canvas.width / (baseFontSize * 1.5));
+    let drops = new Array(columns).fill(1);
+    ctx.font = `bold ${baseFontSize}px monospace`;
 
-    const roseSVG = `<svg class="rose" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" >
-      <path d="M32 2c-3 8-12 14-12 14 0 5-3 9-3 9 4-3 5-2 6-1 2 2 4 8 4 8l-2 6 4 2 4-2-2-6s2-6 4-8c1-1 2-2 6 1 0 0-3-4-3-9 0 0-9-6-12-14z" />
-    </svg>`;
-
-    const numRoses = 50;
-    for(let i=0; i<numRoses; i++) {
-      const div = document.createElement('div');
-      div.innerHTML = roseSVG;
-      const rose = div.firstChild;
-
-      rose.style.left = Math.random() * window.innerWidth + 'px';
-      rose.style.top = (-40 - Math.random() * 100) + 'px';
-      rose.style.animationDuration = (7 + Math.random() * 5) + 's';
-      rose.style.animationDelay = (Math.random() * 5) + 's';
-      rose.style.animationName = 'fall-rose, sway';
-      rosesContainer.appendChild(rose);
+    function drawMatrix() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#ff69b4";
+      for (let i = 0; i < drops.length; i++) {
+        const x = i * baseFontSize * 1.5;
+        const y = drops[i] * baseFontSize;
+        ctx.shadowColor = "rgba(255, 105, 180, 0.7)";
+        ctx.shadowBlur = 15;
+        ctx.fillText(text, x, y);
+        ctx.shadowBlur = 0;
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.3)";
+        ctx.lineWidth = 2;
+        ctx.strokeText(text, x, y);
+        ctx.fillText(text, x, y);
+        if (y > canvas.height && Math.random() > 0.992) drops[i] = 0;
+        drops[i] += 0.3;
+      }
     }
-  }
-</script>
 
+    let particles = [], hearts = [], fireworks = [];
+
+    function createHeart() {
+      hearts.push({
+        x: Math.random() * canvas.width,
+        y: canvas.height + 20,
+        size: 24 + Math.random() * 20,
+        speed: 1 + Math.random() * 1.5,
+        opacity: 0.5 + Math.random() * 0.5
+      });
+    }
+
+    function drawHearts() {
+      hearts.forEach((h, idx) => {
+        ctx.globalAlpha = h.opacity;
+        ctx.font = `${h.size}px monospace`;
+        ctx.fillStyle = '#ff69b4';
+        ctx.fillText("❤", h.x, h.y);
+        h.y -= h.speed;
+        if (h.y < -50) hearts.splice(idx, 1);
+      });
+      ctx.globalAlpha = 1;
+    }
+
+    function createExplosion(x, y) {
+      const count = 30 + Math.floor(Math.random() * 30);
+      for (let i = 0; i < count; i++) {
+        const angle = (Math.PI * 2 * i) / count;
+        const speed = Math.random() * 4 + 2;
+        fireworks.push({
+          x, y,
+          dx: Math.cos(angle) * speed,
+          dy: Math.sin(angle) * speed,
+          alpha: 1,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          text: text,
+          size: 24 + Math.random() * 20
+        });
+      }
+    }
+
+    function createFirework() {
+      const count = 20 + Math.floor(Math.random() * 30);
+      const x = Math.random() * canvas.width;
+      const y = Math.random() * canvas.height / 2;
+      for (let i = 0; i < count; i++) {
+        const angle = (Math.PI * 2 * i) / count;
+        const speed = Math.random() * 3 + 2;
+        fireworks.push({
+          x, y,
+          dx: Math.cos(angle) * speed,
+          dy: Math.sin(angle) * speed,
+          alpha: 1,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          size: 3 + Math.random() * 3
+        });
+      }
+    }
+
+    function drawFireworks() {
+      fireworks.forEach((p, idx) => {
+        ctx.globalAlpha = p.alpha;
+        ctx.fillStyle = p.color;
+        if (p.text) {
+          ctx.font = `bold ${p.size}px monospace`;
+          ctx.fillText(p.text, p.x, p.y);
+        } else {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size / 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        p.x += p.dx;
+        p.y += p.dy;
+        p.alpha -= 0.02;
+        if (p.alpha <= 0) fireworks.splice(idx, 1);
+      });
+      ctx.globalAlpha = 1;
+    }
+
+    function handleInteraction(e) {
+      const x = isTouchDevice ? e.touches[0].clientX : e.clientX;
+      const y = isTouchDevice ? e.touches[0].clientY : e.clientY;
+      createExplosion(x, y);
+
+      for (let i = 0; i < 16; i++) {
+        particles.push({
+          x: x,
+          y: y,
+          vx: (Math.random() - 0.5) * 6,
+          vy: (Math.random() - 0.5) * 6,
+          alpha: 1,
+          size: baseFontSize + Math.random() * 30,
+          color: `#${Math.random() > 0.5 ? 'ff69b4' : 'ff007f'}`
+        });
+      }
+    }
+
+    canvas.addEventListener(
+      isTouchDevice ? 'touchstart' : 'click',
+      handleInteraction
+    );
+
+    function drawParticles() {
+      particles.forEach((p, idx) => {
+        ctx.globalAlpha = p.alpha;
+        ctx.font = `bold ${p.size}px monospace`;
+        ctx.fillStyle = p.color;
+        ctx.shadowColor = p.color;
+        ctx.shadowBlur = 20;
+        ctx.fillText(text, p.x, p.y);
+        p.x += p.vx;
+        p.y += p.vy;
+        p.alpha -= 0.005;
+        if (p.alpha <= 0) particles.splice(idx, 1);
+      });
+      ctx.globalAlpha = 1;
+      ctx.shadowBlur = 0;
+    }
+
+    function animate() {
+      drawMatrix();
+      drawParticles();
+      drawHearts();
+      drawFireworks();
+      if (Math.random() > 0.95) createHeart();
+      if (Math.random() > 0.98) createFirework();
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      columns = Math.floor(canvas.width / (baseFontSize * 1.5));
+      drops = new Array(columns).fill(1);
+    });
+  </script>
 </body>
 </html>
